@@ -1,0 +1,20 @@
+$(function(){
+  //.drawer_buttonのクラス名を指定し、クリック時に変化
+  $('.drawer_button').on('mousedown',function(){
+    //クリックすると.drawer_buttonにクラス名追加
+    $(this).toggleClass('active');
+    //クリックすると.drawer_bgのクラス名フェードアウト
+    $(".drawer_bg").fadeToggle();
+    //クリックするとnavにクラス名追加
+    $("nav").toggleClass("open")
+  });
+  //.drawer_bgのクラス名を指定し、クリック時に変化
+  $('.drawer_bg').on('mousedown',function(){
+    //クリックすると.drawer_bgが消える
+    $(this).hide();
+    //クリックすると.drawer_buttonのクラス名削除
+    $('.drawer_button').removeClass();
+        //クリックするとnav削除
+    $("nav").removeClass("open")
+  })
+});

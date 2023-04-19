@@ -1,0 +1,43 @@
+$(function() {
+  //送信ボタンのクリック時に値取得
+  $('button').click(function() {
+    console.log('名字');
+    //コンソールログにテキストとして名字取得
+    console.log($('#family__name').val());
+    console.log('名前');
+    //コンソールログにテキストとして名前取得
+    console.log($('#given__name').val());
+    console.log('生年月日');
+    //コンソールログにselectタグで分かれていた年月日を１行にまとめ取得
+    console.log($('[name="year"]').val() + '年' + $('[name="month"]').val() + '月' + $('[name="day"]').val() + '日');
+    console.log('性別');
+    //コンソールログに選択した１つのチェックボックスのみ取得
+    console.log($('[name="gender"]:checked').val());
+    console.log('職業');
+    //コンソールログにselectタグ内の選択ボックスで選択した１つの値取得
+    console.log($('[name="work"]').val());
+    console.log('アカウント名');
+    //コンソールログにテキストとしてアカウント名取得
+    console.log($('#account__name').val());
+    console.log('メールアドレス');
+    //コンソールログにテキストとしてメールアドレス取得
+    console.log($('#email').val());
+    console.log('パスワード');
+    //コンソールログにテキストとしてパスワード取得
+    console.log($('#password').val());
+    console.log('確認用パスワード');
+    //コンソールログにテキストとして確認用パスワード取得
+    console.log($('#duplication__password').val());
+    console.log('住所');
+    //コンソールログにテキストとして住所取得
+    console.log($('#address').val());
+    console.log('電話番号');
+    //コンソールログにテキストとして電話番号取得
+    console.log($('#tel').val());
+    console.log('購読情報');
+    //コンソールログにループ処理を用い、複数のチェックボックス取得
+    $('[name="subscription"]:checked').each(function(){
+      console.log($(this).val());
+    });
+});
+});

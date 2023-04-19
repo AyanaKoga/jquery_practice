@@ -1,0 +1,12 @@
+$(function(){
+  //openボタンを指定し要素クリック時に変化をつける
+  $('.modal_open_button').on('mousedown',function(){
+    //modal_winのグループ内のものをクリック時表示
+    $('.modal_win').fadeIn();
+  })
+  //×ボタンを指定し要素クリック時に変化をつける
+  $('.c-modal_close').on('mousedown',function(){
+    //modal_winのグループ内のものをクリック時非表示
+    $('.modal_win').fadeOut();
+  });
+});
