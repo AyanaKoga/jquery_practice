@@ -6,7 +6,7 @@ $(function() {
     },
     //.dropdwn_menuにhoverしてない時は非表示
   function(){
-    $(".dropdwn_menu",this).slideUp();
+    $(".dropdwn_menu",this).stop().slideUp();
     }
   );
 });

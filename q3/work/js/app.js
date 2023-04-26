@@ -1,6 +1,6 @@
 $(function(){
   //.drawer_buttonのクラス名を指定し、クリック時に変化
-  $('.drawer_button').on('mousedown',function(){
+  $('.drawer_button').on('click',function(){
     //クリックすると.drawer_buttonにクラス名追加
     $(this).toggleClass('active');
     //クリックすると.drawer_bgのクラス名フェードアウト
@@ -9,7 +9,7 @@ $(function(){
     $("nav").toggleClass("open")
   });
   //.drawer_bgのクラス名を指定し、クリック時に変化
-  $('.drawer_bg').on('mousedown',function(){
+  $('.drawer_bg').on('click',function(){
     //クリックすると.drawer_bgが消える
     $(this).hide();
     //クリックすると.drawer_buttonのクラス名削除
