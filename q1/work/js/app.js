@@ -93,10 +93,8 @@ $(function () {
 
 
 /*q9---------------------------------*/
-  const values = [];
     //idのq9を指定し要素クリック時に変化をつける
   $('#q9 li').on('click', function () {
-    values.push($(this).text());
     //index参照しアラート表示
     alert($(this).index());
   });
