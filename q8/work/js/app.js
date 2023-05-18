@@ -4,16 +4,31 @@ let pageCount = 1; // 現在のページ番号を格納する変数
 
 // 検索ボタンのクリックイベント
 $('.search-btn').on('click', function () {
-  searchWord = $('#search-input').val(); // 検索ワードを取得
-  pageCount = 1; // ページ番号をリセット
-  performSearch(); // 検索を実行
+  const newSearchWord = $('#search-input').val(); // 新しい検索ワードを取得
+  if (newSearchWord !== searchWord) {
+    searchWord = newSearchWord; // 検索ワードを更新
+    pageCount = 1; // ページ番号をリセット
+    performSearch(); // 検索を実行
+  } else {
+    nextPage(); // 同じ検索ワードの場合は次のページへ
+  }
 });
 
 // ページ切り替えボタンのクリックイベント
-$('.search-btn').on('click', function () {
+$('.next-page-btn').on('click', function () {
+  nextPage(); // 次のページへ
+});
+
+// 次のページを表示する関数
+function nextPage() {
   pageCount++; // ページ番号をインクリメントして次のページへ
   performSearch(); // 検索を実行
-});
+}
+
+
+
+
+
 
 // 検索を実行する関数
 function performSearch() {
