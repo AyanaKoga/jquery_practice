@@ -9,6 +9,7 @@ $('.search-btn').on('click', function () {
     searchWord = newSearchWord; // 検索ワードを更新
     pageCount = 1; // ページ番号をリセット
     performSearch(); // 検索を実行
+    results = []; // 結果を初期化
   } else {
     nextPage(); // 同じ検索ワードの場合は次のページへ
   }
@@ -18,6 +19,8 @@ $('.search-btn').on('click', function () {
 $('.next-page-btn').on('click', function () {
   nextPage(); // 次のページへ
 });
+
+let results = []; // 検索結果を保持する配列
 
 // 次のページを表示する関数
 function nextPage() {
@@ -42,65 +45,78 @@ function performSearch() {
       const result = response['@graph'];
       displayResult(result);
     })
-    .fail(function (err) {
-      displayError(err);
+    .fail(function (xhr, status, error) {
+      displayError(xhr.status);
     });
 }
 
 // 検索結果を表示する関数
 function displayResult(result) {
   $('.lists').empty(); // 検索結果をリセット
-  if (result.length > 0) {
-    const graph = result[0];
-    if (graph.items && graph.items.length > 0) {
-      const items = graph.items;
-      for (let i = 0; i < 20 && i < items.length; i++) {
-        const title = items[i].title;
-        const author = items[i]["dc:creator"];
-        const itemUrl = items[i].link["@id"];
-        const publisherName = items[i]["dc:publisher"];
-        const listItem = `
+  const graph = result[0];
+  if (graph.items && graph.items.length > 0) {
+    const items = graph.items;
+    for (let i = 0; i <items.length; i++) {
+      const title = items[i].title;
+      const author = items[i]["dc:creator"] || "作者不明";
+      const itemUrl = items[i].link["@id"];
+      const publisherName = items[i]["dc:publisher"];
+      const listItem = `
           <li class="lists-item">
             <div class="list-inner">
-              <p>作品名： ${title}</p>
-              <p>作者： ${author}</p>
-              <p>出版社： ${publisherName}</p>
-              <a href="${itemUrl}" target="_blank">リンク</a>
+              <p>タイトル：${title}</p>
+              <p>作者：${author}</p>
+              <p>出版社：${publisherName}</p>
+              <a href="${itemUrl}" target="_blank">書籍情報</a>
             </div>
           </li>
         `;
-        $('.lists').append(listItem);
+        results.unshift(listItem); // 新しい結果をresults配列に追加
+      }
+
+      if (pageCount === 1) {
+        $('.lists').html(results.join('')); // 初めてのページの場合は結果を表示
+      } else {
+        $('.lists').append(results.join('')); // 2ページ目以降は結果を追加
       }
       $('.search-btn').show(); // 次のページボタンを表示
     } else {
-      $('.lists').html(`<li>検索結果が見つかりませんでした。</li>`);
+      if (pageCount === 1) {
+        $('.lists').html(`<li>検索結果が見つかりませんでした。</li>`); // 初めてのページで結果が見つからない場合は表示
+      } else {
+        $('.search-btn').hide(); // 2ページ目以降で結果が見つからない場合は次のページボタンを非表示
+      }
     }
-  } else {
-    $('.lists').html(`<li>検索結果が見つかりませんでした。</li>`);
   }
 
 
 
-  // エラーを表示する関数
-  function displayError(err) {
-    $('.lists').html(`<li>Error: ${err.statusText}</li>`);
+
+// エラーを表示する関数
+function displayError(status) {
+  let errorMessage = '';
+  switch (status) {
+    case 400:
+      errorMessage = 'Bad Request';
+      break;
+    case 401:
+      errorMessage = 'Unauthorized';
+      break;
+    case 404:
+      errorMessage = 'Not Found';
+      break;
+    default:
+      errorMessage = 'An error occurred';
+      break;
   }
+  $('.lists').html(`<li>Error: ${errorMessage}</li>`);
+}
 
-  // リセットボタンのクリックイベント
-  $('.reset-btn').click(function () {
-    $('#search-input').val('');
-    $('.lists').html('');
-  });
-};
-
-
-
-
-
-
-
-
-
-
+// リセットボタンのクリックイベント
+$('.reset-btn').click(function () {
+  pageCount = 0; // ページ番号をリセット
+  $('#search-input').val('');
+  $('.lists').html('');
+});
 
 
